@@ -1,0 +1,7 @@
+[package]
+name = "arbitrary_example"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+arbitrary = { version = "1", features = ["derive"] }
