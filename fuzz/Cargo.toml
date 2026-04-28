@@ -1,0 +1,19 @@
+[package]
+name = "rust_fuzzy-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+rust_fuzzy = { path = ".." }
+
+[[bin]]
+name = "parse_port"
+path = "fuzz_targets/parse_port.rs"
+test = false
+doc = false
+bench = false

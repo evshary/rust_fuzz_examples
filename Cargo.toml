@@ -1,0 +1,11 @@
+[package]
+name = "rust_fuzzy"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+[workspace]
+default-members = ["."]
+members = ["fuzz"]
+resolver = "2"
