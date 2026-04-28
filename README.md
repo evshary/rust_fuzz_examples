@@ -1,30 +1,28 @@
 # Rust Fuzzing Examples
 
-This repository contains three small Rust fuzzing tutorials. Each example uses a
-simple `parse_port` function with an intentional bug on input `0`, but they use
-different fuzzing tools so you can compare the workflows.
+This repository contains three small Rust fuzzing tutorials. Each example uses
+the same `parse_port` function with an intentional bug on input `0`, so you can
+compare the tooling without changing the target code much.
 
 ## Examples
 
-- [cargo_fuzzy_example](./cargo_fuzzy_example/README.md): a `cargo-fuzz`
-  example using `cargo +nightly fuzz run`.
-- [afl_rs_example](./afl_rs_example/README.md): an `afl.rs` example using
-  `cargo afl`.
-- [honggfuzz_rs_example](./honggfuzz_rs_example/README.md): a `honggfuzz-rs`
-  example using `cargo hfuzz run`.
+| Example | Tool | Example README | Upstream project |
+| --- | --- | --- | --- |
+| `cargo_fuzzy_example` | `cargo-fuzz` | [cargo_fuzzy_example/README.md](./cargo_fuzzy_example/README.md) | [rust-fuzz/cargo-fuzz](https://github.com/rust-fuzz/cargo-fuzz) |
+| `afl_rs_example` | `afl.rs` | [afl_rs_example/README.md](./afl_rs_example/README.md) | [rust-fuzz/afl.rs](https://github.com/rust-fuzz/afl.rs) |
+| `honggfuzz_rs_example` | `honggfuzz-rs` | [honggfuzz_rs_example/README.md](./honggfuzz_rs_example/README.md) | [rust-fuzz/honggfuzz-rs](https://github.com/rust-fuzz/honggfuzz-rs) |
 
-## Which one to use
+## Comparison
 
-- Choose `cargo_fuzzy_example` if you want the more common libFuzzer-style Rust
-  workflow with a dedicated `fuzz/` directory.
-- Choose `afl_rs_example` if you want to learn the AFL-style workflow with seed
-  inputs in `in/` and generated results in `out/`.
-- Choose `honggfuzz_rs_example` if you want a Honggfuzz-based workflow with the
-  default `hfuzz_workspace/` and `hfuzz_target/` directories.
+| Tool | Features | Advantages | Tradeoffs | When to use |
+| --- | --- | --- | --- | --- |
+| `cargo-fuzz` | Rust wrapper around libFuzzer with coverage-guided fuzzing and the standard `fuzz/` project layout | Usually the most familiar Rust fuzzing workflow, easy to add to a crate, good default choice for tutorials and CI experiments | Requires nightly Rust and is mostly centered on the libFuzzer style of harness | Use it when you want the most common Rust fuzzing setup or a simple place to start |
+| `afl.rs` | Rust bindings for AFL/AFL++ with explicit input and output directories and seed-based mutation | Makes the corpus and crash workflow very visible, great for learning seed inputs and AFL-style fuzzing | Setup can be more system-dependent, and the workflow feels less like standard Cargo than `cargo-fuzz` | Use it when you want to learn AFL-style fuzzing or work with seed files and output queues directly |
+| `honggfuzz-rs` | Rust bindings for Honggfuzz with built-in crash analysis workflow and `hfuzz_workspace/` output | Good if you want Honggfuzz specifically or want its reporting and debugger-oriented replay flow | Often needs extra native packages, and replay/debugging is a little more toolchain-dependent | Use it when you want to try Honggfuzz itself or compare a third workflow against `cargo-fuzz` and AFL |
 
-## Quick start
+## Quick Start
 
-For `cargo-fuzz`:
+`cargo-fuzz`:
 
 ```bash
 cd cargo_fuzzy_example
@@ -32,7 +30,7 @@ cargo run
 cargo +nightly fuzz run parse_port
 ```
 
-For `afl.rs`:
+`afl.rs`:
 
 ```bash
 cd afl_rs_example
@@ -41,19 +39,10 @@ cargo afl build --features afl-harness --bin fuzz_parse_port
 cargo afl fuzz -i in -o out target/debug/fuzz_parse_port
 ```
 
-For `honggfuzz-rs`:
+`honggfuzz-rs`:
 
 ```bash
 cd honggfuzz_rs_example
 cargo run
 cargo hfuzz run parse_port
 ```
-
-## Notes
-
-- Each example has its own `README.md` with more detail.
-- The `cargo-fuzz` example requires nightly Rust for fuzzing.
-- The `afl.rs` example may require AFL++ system setup depending on your Linux
-  environment.
-- The `honggfuzz-rs` example may require native system packages depending on
-  your platform.
