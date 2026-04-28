@@ -1,0 +1,8 @@
+[package]
+name = "honggfuzz_rs_example"
+version = "0.1.0"
+edition = "2024"
+default-run = "honggfuzz_rs_example"
+
+[dependencies]
+honggfuzz = "0.5"

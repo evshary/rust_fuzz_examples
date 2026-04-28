@@ -1,0 +1,6 @@
+# honggfuzz.rs-related
+hfuzz_target
+hfuzz_workspace/parse_port/*
+!hfuzz_workspace/parse_port/input/
+hfuzz_workspace/parse_port/input/*
+!hfuzz_workspace/parse_port/input/seed.txt
