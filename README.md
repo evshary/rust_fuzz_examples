@@ -1,16 +1,29 @@
-# Rust Fuzzing Examples
+# Rust Fuzzing and Property Testing Examples
 
-This repository contains three small Rust fuzzing tutorials. Each example uses
-the same `parse_port` function with an intentional bug on input `0`, so you can
-compare the tooling without changing the target code much.
+This repository contains four small Rust testing tutorials. They fall into two
+categories:
+
+- fuzz testing: `cargo-fuzz`, `afl.rs`, and `honggfuzz-rs`
+- property-based testing: `proptest`
+
+Each example uses the same basic `parse_port` idea with an intentional bug on
+input `0`, so you can compare the approaches without changing the target much.
 
 ## Examples
+
+### Fuzz Testing
 
 | Example | Tool | Example README | Upstream project |
 | --- | --- | --- | --- |
 | `cargo_fuzzy_example` | `cargo-fuzz` | [cargo_fuzzy_example/README.md](./cargo_fuzzy_example/README.md) | [rust-fuzz/cargo-fuzz](https://github.com/rust-fuzz/cargo-fuzz) |
 | `afl_rs_example` | `afl.rs` | [afl_rs_example/README.md](./afl_rs_example/README.md) | [rust-fuzz/afl.rs](https://github.com/rust-fuzz/afl.rs) |
 | `honggfuzz_rs_example` | `honggfuzz-rs` | [honggfuzz_rs_example/README.md](./honggfuzz_rs_example/README.md) | [rust-fuzz/honggfuzz-rs](https://github.com/rust-fuzz/honggfuzz-rs) |
+
+### Property-Based Testing
+
+| Example | Tool | Example README | Upstream project |
+| --- | --- | --- | --- |
+| `proptest_example` | `proptest` | [proptest_example/README.md](./proptest_example/README.md) | [proptest-rs/proptest](https://github.com/proptest-rs/proptest) |
 
 ## Comparison
 
@@ -19,6 +32,7 @@ compare the tooling without changing the target code much.
 | `cargo-fuzz` | Rust wrapper around libFuzzer with coverage-guided fuzzing and the standard `fuzz/` project layout | Usually the most familiar Rust fuzzing workflow, easy to add to a crate, good default choice for tutorials and CI experiments | Requires nightly Rust and is mostly centered on the libFuzzer style of harness | Use it when you want the most common Rust fuzzing setup or a simple place to start |
 | `afl.rs` | Rust bindings for AFL/AFL++ with explicit input and output directories and seed-based mutation | Makes the corpus and crash workflow very visible, great for learning seed inputs and AFL-style fuzzing | Setup can be more system-dependent, and the workflow feels less like standard Cargo than `cargo-fuzz` | Use it when you want to learn AFL-style fuzzing or work with seed files and output queues directly |
 | `honggfuzz-rs` | Rust bindings for Honggfuzz with built-in crash analysis workflow and `hfuzz_workspace/` output | Good if you want Honggfuzz specifically or want its reporting and debugger-oriented replay flow | Often needs extra native packages, and replay/debugging is a little more toolchain-dependent | Use it when you want to try Honggfuzz itself or compare a third workflow against `cargo-fuzz` and AFL |
+| `proptest` | Property-based testing with strategies, shrinking, and persisted regression cases | Works on stable Rust, integrates directly with `cargo test`, and is great for checking invariants instead of only searching for crashes | Not coverage-guided fuzzing, and you need to define useful properties and generators yourself | Use it when you can describe expected behavior as properties and want minimal failing examples automatically |
 
 ## Quick Start
 
@@ -45,4 +59,12 @@ cargo afl fuzz -i in -o out target/debug/fuzz_parse_port
 cd honggfuzz_rs_example
 cargo run
 cargo hfuzz run parse_port
+```
+
+`proptest`:
+
+```bash
+cd proptest_example
+cargo run
+cargo test parse_port_matches_std -- --ignored
 ```
