@@ -9,6 +9,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c3d036a3c4ab069c7b410a2ce876bd74808d2d0888a82667669f8e783a898bf1"
 
 [[package]]
+name = "cargo_fuzzy_example"
+version = "0.1.0"
+
+[[package]]
+name = "cargo_fuzzy_example-fuzz"
+version = "0.0.0"
+dependencies = [
+ "cargo_fuzzy_example",
+ "libfuzzer-sys",
+]
+
+[[package]]
 name = "cc"
 version = "1.2.61"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -75,18 +87,6 @@ name = "r-efi"
 version = "5.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "69cdb34c158ceb288df11e18b4bd39de994f6657d83847bdffdbd7f346754b0f"
-
-[[package]]
-name = "rust_fuzzy"
-version = "0.1.0"
-
-[[package]]
-name = "rust_fuzzy-fuzz"
-version = "0.0.0"
-dependencies = [
- "libfuzzer-sys",
- "rust_fuzzy",
-]
 
 [[package]]
 name = "shlex"

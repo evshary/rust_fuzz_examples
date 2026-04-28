@@ -1,8 +1,6 @@
 # Rust related
 target
-fuzz/artifacts
-fuzz/corpus
-fuzz/coverage
+afl_rs_example/target
 
 # AI related
 .codex

@@ -1,0 +1,26 @@
+[package]
+name = "afl_rs_example"
+version = "0.1.0"
+edition = "2024"
+default-run = "afl_rs_example"
+
+[dependencies]
+
+[features]
+default = []
+afl-harness = ["dep:afl"]
+
+[dependencies.afl]
+version = "0.17"
+optional = true
+
+[[bin]]
+name = "fuzz_parse_port"
+path = "src/bin/fuzz_parse_port.rs"
+required-features = ["afl-harness"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"

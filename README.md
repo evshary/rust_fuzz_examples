@@ -1,88 +1,45 @@
-# cargo-fuzz tutorial example
+# Rust Fuzzing Examples
 
-This repository contains a very small Rust crate plus a `cargo-fuzz` target.
-The example is intentionally simple so it can be used in a tutorial.
+This repository contains two small Rust fuzzing tutorials. Both examples use a
+simple `parse_port` function with an intentional bug on input `0`, but they use
+different fuzzing tools so you can compare the workflows.
 
-The function under test is `parse_port` in `src/lib.rs`. It accepts bytes,
-tries to interpret them as UTF-8 text, and parses a port number from that
-text. There is also one intentional bug:
+## Examples
 
-- the input `0` causes a panic
+- [cargo_fuzzy_example](./cargo_fuzzy_example/README.md): a `cargo-fuzz`
+  example using `cargo +nightly fuzz run`.
+- [afl_rs_example](./afl_rs_example/README.md): an `afl.rs` example using
+  `cargo afl`.
 
-That makes it easy to demonstrate how fuzzing finds a crash automatically.
+## Which one to use
 
-## Project layout
+- Choose `cargo_fuzzy_example` if you want the more common libFuzzer-style Rust
+  workflow with a dedicated `fuzz/` directory.
+- Choose `afl_rs_example` if you want to learn the AFL-style workflow with seed
+  inputs in `in/` and generated results in `out/`.
 
-```text
-src/lib.rs                  # code we want to fuzz
-fuzz/Cargo.toml             # cargo-fuzz package
-fuzz/fuzz_targets/parse_port.rs
-```
+## Quick start
 
-## Prerequisites
-
-Install `cargo-fuzz` if you do not already have it:
-
-```bash
-cargo install cargo-fuzz
-```
-
-Install the nightly Rust toolchain once (Require the nightly feature for the fuzzy test):
+For `cargo-fuzz`:
 
 ```bash
-rustup toolchain install nightly
-```
-
-## Run the normal program
-
-```bash
+cd cargo_fuzzy_example
 cargo run
-```
-
-Expected output:
-
-```text
-Parsed port: 8080
-```
-
-## Run the fuzzer
-
-Start fuzzing with:
-
-```bash
 cargo +nightly fuzz run parse_port
 ```
 
-`cargo-fuzz` will generate many different byte inputs and call
-`rust_fuzzy::parse_port` with them. After enough mutations, it should discover
-that the string `0` triggers a panic and stop with a crash report.
-
-## What the generated files mean
-
-While fuzzing runs, `cargo-fuzz` stores interesting inputs on disk.
-
-- `fuzz/corpus/parse_port/` contains saved inputs that are useful for future
-  fuzzing runs. These are not necessarily failures. They are just inputs the
-  fuzzer decided to keep because they help explore new behavior.
-- `fuzz/artifacts/parse_port/` contains inputs that triggered a failure, such as
-  a panic or crash.
-
-You can view the files with
+For `afl.rs`:
 
 ```bash
-# Raw bytes
-xxd fuzz/xxxx/parse_port/<file>
-# If readable
-cat fuzz/xxxx/parse_port/<file>
+cd afl_rs_example
+cargo run
+cargo afl build --features afl-harness --bin fuzz_parse_port
+cargo afl fuzz -i in -o out target/debug/fuzz_parse_port
 ```
 
-## Reproduce the case
+## Notes
 
-You can rerun the exact input with
-
-```bash
-# crash
-cargo +nightly fuzz run parse_port fuzz/artifacts/parse_port/<crash-file>
-# non-crash
-cargo +nightly fuzz run parse_port fuzz/corpus/parse_port/<file>
-```
+- Each example has its own `README.md` with more detail.
+- The `cargo-fuzz` example requires nightly Rust for fuzzing.
+- The `afl.rs` example may require AFL++ system setup depending on your Linux
+  environment.
