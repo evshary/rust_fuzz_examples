@@ -10,4 +10,5 @@ clean:
     rm -rf proptest_example/proptest-regressions \
            proptest_example/target
     rm -rf arbitrary_example/target
+    rm -rf libafl_example/target
     rm -rf target
