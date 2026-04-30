@@ -1,10 +1,10 @@
 # Rust Fuzzing and Property Testing Examples
 
-This repository contains six small Rust testing tutorials. They fall into
+This repository contains seven small Rust testing tutorials. They fall into
 two broad categories:
 
 - fuzz testing: `cargo-fuzz`, `afl.rs`, `honggfuzz-rs`, and `libafl`
-- input generation and property testing: `arbitrary` and `proptest`
+- input generation and property testing: `arbitrary`, `proptest`, and `bolero`
 
 Each example uses the same basic `parse_port` idea with an intentional bug on
 input `0`, so you can compare the approaches without changing the target much.
@@ -34,6 +34,7 @@ input `0`, so you can compare the approaches without changing the target much.
 | --- | --- | --- | --- |
 | `arbitrary_example` | `arbitrary` | [arbitrary_example/README.md](./arbitrary_example/README.md) | [rust-fuzz/arbitrary](https://github.com/rust-fuzz/arbitrary) |
 | `proptest_example` | `proptest` | [proptest_example/README.md](./proptest_example/README.md) | [proptest-rs/proptest](https://github.com/proptest-rs/proptest) |
+| `bolero_example` | `bolero` | [bolero_example/README.md](./bolero_example/README.md) | [camshaft/bolero](https://github.com/camshaft/bolero) |
 
 ## Comparison
 
@@ -45,6 +46,7 @@ input `0`, so you can compare the approaches without changing the target much.
 | `LibAFL` | A modular fuzzing framework where you compose inputs, mutators, schedulers, feedback, and execution yourself | Extremely flexible and good for learning or building custom fuzzers | More moving parts than the other examples, so the learning curve is higher | Use it when you want to understand or customize the internals of a fuzzer instead of using a fixed workflow |
 | `arbitrary` | Structured input generation from raw bytes with `Arbitrary` derives and `Unstructured` | Lets you model inputs as real Rust types and combine structure-aware generation with a fuzzer or test harness | Not a standalone fuzzer, and it does not provide coverage guidance by itself | Use it when raw bytes are too low-level and you want fuzzers or tests to exercise structured inputs |
 | `proptest` | Property-based testing with strategies, shrinking, and persisted regression cases | Works on stable Rust, integrates directly with `cargo test`, and is great for checking invariants instead of only searching for crashes | Not coverage-guided fuzzing, and you need to define useful properties and generators yourself | Use it when you can describe expected behavior as properties and want minimal failing examples automatically |
+| `bolero` | A front-end that combines property-style tests with fuzzing backends and corpus/crash replay | Good when you want a test-shaped API but still want a fuzzing-oriented workflow | Requires the `cargo-bolero` subcommand and a `fuzz` profile, and the toolchain experience is less minimal than plain `cargo test` | Use it when you want something between `proptest` and a dedicated fuzzing tool |
 
 ## Quick Start
 
@@ -95,4 +97,12 @@ cargo test parse_port_matches_std -- --ignored
 cd arbitrary_example
 cargo run
 cargo test
+```
+
+`bolero`:
+
+```bash
+cd bolero_example
+cargo run
+cargo +nightly bolero test parse_port_matches_std
 ```
