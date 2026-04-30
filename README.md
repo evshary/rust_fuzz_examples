@@ -1,10 +1,11 @@
 # Rust Fuzzing and Property Testing Examples
 
 This repository contains eight small Rust testing tutorials. They fall into
-two broad categories:
+three broad categories:
 
 - fuzz testing: `cargo-fuzz`, `afl.rs`, `honggfuzz-rs`, and `libafl`
-- input generation, property testing, and concurrency testing: `arbitrary`, `proptest`, `bolero`, and `loom`
+- input generation and property testing: `arbitrary`, `proptest`, and `bolero`
+- others: `loom`
 
 Each example uses the same basic `parse_port` idea with an intentional bug on
 input `0`, so you can compare the approaches without changing the target much.
@@ -16,6 +17,8 @@ input `0`, so you can compare the approaches without changing the target much.
 - Input generation and property testing tools focus on describing useful input shapes or expected properties.
   They do not replace a fuzzer engine,
   but they help you generate more meaningful inputs or verify broader invariants.
+- Other tools in this repo do not fit neatly into either group.
+  `loom`, for example, explores thread interleavings for concurrent code instead of generating unusual data inputs.
 
 ## Examples
 
@@ -35,6 +38,11 @@ input `0`, so you can compare the approaches without changing the target much.
 | `arbitrary_example` | `arbitrary` | [arbitrary_example/README.md](./arbitrary_example/README.md) | [rust-fuzz/arbitrary](https://github.com/rust-fuzz/arbitrary) |
 | `proptest_example` | `proptest` | [proptest_example/README.md](./proptest_example/README.md) | [proptest-rs/proptest](https://github.com/proptest-rs/proptest) |
 | `bolero_example` | `bolero` | [bolero_example/README.md](./bolero_example/README.md) | [camshaft/bolero](https://github.com/camshaft/bolero) |
+
+### Others
+
+| Example | Tool | Example README | Upstream project |
+| --- | --- | --- | --- |
 | `loom_example` | `loom` | [loom_example/README.md](./loom_example/README.md) | [tokio-rs/loom](https://github.com/tokio-rs/loom) |
 
 ## Comparison

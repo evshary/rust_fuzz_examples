@@ -14,9 +14,8 @@ fn loom_publish_and_read() {
         let writer_value = Arc::clone(&value);
         let writer_ready = Arc::clone(&ready);
         let writer = thread::spawn(move || {
+            // The order is not correct, so it will panic
             writer_ready.store(true, Ordering::Release);
-            // We add this line to trigger the bug intentionally
-            thread::yield_now();
             writer_value.store(1, Ordering::Release);
         });
 
