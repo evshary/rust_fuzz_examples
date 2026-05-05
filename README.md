@@ -3,8 +3,8 @@
 This repository contains eight small Rust testing tutorials. They fall into
 three broad categories:
 
-- fuzz testing: `cargo-fuzz`, `afl.rs`, `honggfuzz-rs`, and `libafl`
-- input generation and property testing: `arbitrary`, `proptest`, and `bolero`
+- fuzz testing: `cargo-fuzz`, `afl.rs`, `honggfuzz-rs`, `libafl`, and `bolero`
+- property testing and input modeling: `arbitrary` and `proptest`
 - others: `loom`
 
 Each example uses the same basic `parse_port` idea with an intentional bug on
@@ -14,7 +14,7 @@ input `0`, so you can compare the approaches without changing the target much.
 
 - Fuzz testing tools start from raw bytes, mutate them automatically,
   and use execution feedback such as coverage or crashes to decide what to try next.
-- Input generation and property testing tools focus on describing useful input shapes or expected properties.
+- Property testing and input modeling tools focus on describing useful input shapes or expected properties.
   They do not replace a fuzzer engine,
   but they help you generate more meaningful inputs or verify broader invariants.
 - Other tools in this repo do not fit neatly into either group.
@@ -30,14 +30,14 @@ input `0`, so you can compare the approaches without changing the target much.
 | `afl_rs_example` | `afl.rs` | [afl_rs_example/README.md](./afl_rs_example/README.md) | [rust-fuzz/afl.rs](https://github.com/rust-fuzz/afl.rs) |
 | `honggfuzz_rs_example` | `honggfuzz-rs` | [honggfuzz_rs_example/README.md](./honggfuzz_rs_example/README.md) | [rust-fuzz/honggfuzz-rs](https://github.com/rust-fuzz/honggfuzz-rs) |
 | `libafl_example` | `LibAFL` | [libafl_example/README.md](./libafl_example/README.md) | [AFLplusplus/LibAFL](https://github.com/AFLplusplus/LibAFL) |
+| `bolero_example` | `bolero` | [bolero_example/README.md](./bolero_example/README.md) | [camshaft/bolero](https://github.com/camshaft/bolero) |
 
-### Input Generation and Property Testing
+### Property Testing and Input Modeling
 
 | Example | Tool | Example README | Upstream project |
 | --- | --- | --- | --- |
 | `arbitrary_example` | `arbitrary` | [arbitrary_example/README.md](./arbitrary_example/README.md) | [rust-fuzz/arbitrary](https://github.com/rust-fuzz/arbitrary) |
 | `proptest_example` | `proptest` | [proptest_example/README.md](./proptest_example/README.md) | [proptest-rs/proptest](https://github.com/proptest-rs/proptest) |
-| `bolero_example` | `bolero` | [bolero_example/README.md](./bolero_example/README.md) | [camshaft/bolero](https://github.com/camshaft/bolero) |
 
 ### Others
 
