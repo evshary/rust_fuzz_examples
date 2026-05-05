@@ -15,7 +15,7 @@ fuzz/fuzz_targets/parse_port.rs
 ## Setup
 
 ```bash
-cd cargo_fuzzy_example
+cd cargo_fuzz_example
 cargo install cargo-fuzz
 rustup toolchain install nightly
 ```

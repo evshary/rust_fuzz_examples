@@ -26,7 +26,7 @@ input `0`, so you can compare the approaches without changing the target much.
 
 | Example | Tool | Example README | Upstream project |
 | --- | --- | --- | --- |
-| `cargo_fuzzy_example` | `cargo-fuzz` | [cargo_fuzzy_example/README.md](./cargo_fuzzy_example/README.md) | [rust-fuzz/cargo-fuzz](https://github.com/rust-fuzz/cargo-fuzz) |
+| `cargo_fuzz_example` | `cargo-fuzz` | [cargo_fuzz_example/README.md](./cargo_fuzz_example/README.md) | [rust-fuzz/cargo-fuzz](https://github.com/rust-fuzz/cargo-fuzz) |
 | `afl_rs_example` | `afl.rs` | [afl_rs_example/README.md](./afl_rs_example/README.md) | [rust-fuzz/afl.rs](https://github.com/rust-fuzz/afl.rs) |
 | `honggfuzz_rs_example` | `honggfuzz-rs` | [honggfuzz_rs_example/README.md](./honggfuzz_rs_example/README.md) | [rust-fuzz/honggfuzz-rs](https://github.com/rust-fuzz/honggfuzz-rs) |
 | `libafl_example` | `LibAFL` | [libafl_example/README.md](./libafl_example/README.md) | [AFLplusplus/LibAFL](https://github.com/AFLplusplus/LibAFL) |
@@ -63,7 +63,7 @@ input `0`, so you can compare the approaches without changing the target much.
 `cargo-fuzz`:
 
 ```bash
-cd cargo_fuzzy_example
+cd cargo_fuzz_example
 cargo run
 cargo +nightly fuzz run parse_port
 ```

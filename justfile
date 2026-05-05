@@ -1,7 +1,7 @@
 clean:
     rm -rf afl_rs_example/out \
            afl_rs_example/target
-    rm -rf cargo_fuzzy_example/target
+    rm -rf cargo_fuzz_example/target
     rm -rf honggfuzz_rs_example/hfuzz_target \
            honggfuzz_rs_example/target \
            honggfuzz_rs_example/hfuzz_workspace/parse_port/*.TXT \

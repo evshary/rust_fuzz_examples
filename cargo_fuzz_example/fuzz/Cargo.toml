@@ -1,5 +1,5 @@
 [package]
-name = "cargo_fuzzy_example-fuzz"
+name = "cargo_fuzz_example-fuzz"
 version = "0.0.0"
 publish = false
 edition = "2024"
@@ -9,7 +9,7 @@ cargo-fuzz = true
 
 [dependencies]
 libfuzzer-sys = "0.4"
-cargo_fuzzy_example = { path = ".." }
+cargo_fuzz_example = { path = ".." }
 
 [[bin]]
 name = "parse_port"
