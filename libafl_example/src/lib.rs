@@ -22,16 +22,16 @@ pub fn parse_port(input: &[u8]) -> u16 {
 pub fn mutate_seed(seed: &[u8]) -> Vec<u8> {
     // `NopState` is the smallest usable LibAFL state for a simple tutorial.
     let mut state = NopState::<BytesInput>::new();
-    // `BytesInput` is the standard raw-byte input type used by many fuzzers.
+    // Wrap the seed so LibAFL can treat it as a mutable fuzzing input.
     let mut input = BytesInput::new(seed.to_vec());
-    // This mutator applies a stack of "havoc" byte-level mutations.
+    // Apply a stack of byte-level mutations to produce a nearby test case.
     let mut mutator = HavocScheduledMutator::new(havoc_mutations_no_crossover());
 
     mutator
         .mutate(&mut state, &mut input)
         .expect("LibAFL mutation should succeed");
 
-    // Convert the mutated LibAFL input back into plain bytes for our target.
+    // Return plain bytes so the target can be exercised without LibAFL-specific types.
     input.into()
 }
 
