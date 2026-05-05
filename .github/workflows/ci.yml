@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  examples:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: cargo_fuzz_example
+            working_directory: cargo_fuzz_example
+            script: |
+              cargo run
+              cargo test
+              cargo check --manifest-path fuzz/Cargo.toml
+
+          - name: afl_rs_example
+            working_directory: afl_rs_example
+            script: |
+              cargo run
+              cargo test
+              cargo check --features afl-harness --bin fuzz_parse_port
+
+          - name: honggfuzz_rs_example
+            working_directory: honggfuzz_rs_example
+            script: |
+              cargo run
+              cargo test
+              cargo check --bin parse_port
+
+          - name: libafl_example
+            working_directory: libafl_example
+            script: |
+              cargo run
+              cargo test
+
+          - name: arbitrary_example
+            working_directory: arbitrary_example
+            script: |
+              cargo run
+              cargo test
+
+          - name: proptest_example
+            working_directory: proptest_example
+            script: |
+              cargo run
+              cargo test
+
+          - name: bolero_example
+            working_directory: bolero_example
+            script: |
+              cargo run
+              cargo test --lib --bins
+              cargo test --test parse_port_matches_std --no-run
+
+          - name: loom_example
+            working_directory: loom_example
+            script: |
+              cargo run
+              cargo test
+              RUSTFLAGS="--cfg loom" cargo test --test loom_publish --release --no-run
+              if RUSTFLAGS="--cfg loom" cargo test --test loom_publish --release; then
+                echo "loom model test unexpectedly passed"
+                exit 1
+              fi
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo artifacts
+        uses: Swatinem/rust-cache@v2
+
+      - name: Run example checks
+        working-directory: ${{ matrix.working_directory }}
+        shell: bash
+        run: |
+          set -euxo pipefail
+          ${{ matrix.script }}
