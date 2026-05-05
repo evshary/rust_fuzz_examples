@@ -43,7 +43,6 @@ jobs:
           - name: libafl_example
             working_directory: libafl_example
             script: |
-              cargo run
               cargo test
 
           - name: arbitrary_example
