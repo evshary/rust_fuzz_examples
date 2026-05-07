@@ -49,4 +49,6 @@ cat fuzz/artifacts/parse_port/<file>
 
 ```bash
 cargo +nightly fuzz run parse_port fuzz/artifacts/parse_port/<crash-file>
+# Minimize the smallest input to reproduce the failure
+cargo +nightly fuzz tmin parse_port fuzz/artifacts/parse_port/<crash-file>
 ```
